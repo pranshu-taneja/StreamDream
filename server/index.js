@@ -48,6 +48,14 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.get("/", async (req, res) => {
+  try {
+    res.json({ message: "Hello from the express server!!" });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.listen(8800, () => {
   connect();
   console.log("Connected to Server");

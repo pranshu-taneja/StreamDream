@@ -39,7 +39,7 @@ const Comments = ({videoId}) => {
   const handleComment = async () => {
     try {
       console.log({Publishing_Content: videoId, currentUser, currentComment})
-      const res = await axios.post("/comments", {
+      await axios.post("/comments", {
         videoId,
         userId: currentUser._id,
         desc: currentComment,

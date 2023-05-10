@@ -7,34 +7,19 @@ import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
 import morgan from "morgan";
-mongoose.set('strictQuery', false);
 
-const app = express();
+// Set Mongoose option to avoid errors with empty ObjectIDs
+mongoose.set("strictQuery", false);
+
+// Load environment variables
 dotenv.config();
 
-const port = process.env.PORT || 5000;
-const mongoURL = process.env.MONGO;
+const app = express();
 
-const connect = async() => {
-  await mongoose
-    .connect(mongoURL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      })
-    .then(() => {
-      console.log("Connected to DB");
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
-
-
-//middlewares
+// Configure middleware
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(cors());
 app.use("/api/auth", authRoutes);
@@ -42,27 +27,18 @@ app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
 
-// If failed to connect to MongoDB, retry connection
-mongoose.connection.on('disconnected', function() {
-  console.log('Lost MongoDB connection...');
-
-  // Retry connection
-  setTimeout(() => {
-    connect();
-  }, 1000);
-});
-
-//error handler
+// Handle errors
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong!";
-  return res.status(status).json({
+  res.status(status).json({
     success: false,
     status,
     message,
   });
 });
 
+// Define route for homepage
 app.get("/api", async (req, res) => {
   try {
     res.json({ message: "Hello from the express server!!" });
@@ -71,9 +47,31 @@ app.get("/api", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  connect();
-  console.log(`Connected to Server On Port ${port}`);
-});
+// Connect to MongoDB
+const connectToDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error(err);
+    setTimeout(connectToDB, 1000); // Retry connection after delay
+  }
+};
 
+// Start server when connected to MongoDB
+const startServer = async () => {
+  try {
+    await connectToDB();
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(`Server running on port ${process.env.PORT || 5000}`);
+    });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
 
+startServer();

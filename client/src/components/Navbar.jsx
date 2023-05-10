@@ -43,6 +43,7 @@ const Input = styled.input`
   border: none;
   background-color: transparent;
   outline: none;
+  width: 40rem;
   color: ${({ theme }) => theme.text};
 
 `;

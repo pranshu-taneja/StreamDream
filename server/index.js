@@ -24,8 +24,8 @@ app.use("/api/comments", commentRoutes);
 app.use(morgan("combined"));
 app.use(cors());
 
-const connect = () => {
-  mongoose
+const connect = async() => {
+  await mongoose
     .connect(process.env.MONGO, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

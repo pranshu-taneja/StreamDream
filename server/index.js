@@ -15,20 +15,21 @@ const app = express();
 dotenv.config();
 
 //middlewares
-app.use(cookieParser())
 app.use(express.json());
+app.use(cookieParser())
+app.use(morgan("combined"));
+app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
-app.use(morgan("combined"));
-app.use(cors());
 
 const port = process.env.PORT || 5000;
+const mongoURL = process.env.MONGO;
 
 const connect = async() => {
   await mongoose
-    .connect(process.env.MONGO, {
+    .connect(mongoURL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       })
@@ -40,6 +41,15 @@ const connect = async() => {
     });
 };
 
+
+mongoose.connection.on('disconnected', function() {
+  console.log('Lost MongoDB connection...');
+
+  // Retry connection
+  setTimeout(() => {
+    connect();
+  }, 1000);
+});
 
 //error handler
 app.use((err, req, res, next) => {

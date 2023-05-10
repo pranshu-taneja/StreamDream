@@ -24,6 +24,8 @@ app.use("/api/comments", commentRoutes);
 app.use(morgan("combined"));
 app.use(cors());
 
+const port = process.env.PORT || 5000;
+
 const connect = async() => {
   await mongoose
     .connect(process.env.MONGO, {
@@ -58,9 +60,9 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(8800, () => {
+app.listen(port, () => {
   connect();
-  console.log("Connected to Server");
+  console.log(`Connected to Server On Port ${port}`);
 });
 
 

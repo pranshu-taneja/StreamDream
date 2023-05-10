@@ -7,12 +7,23 @@ import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import morgan from "morgan";
 
+import morgan from "morgan";
+mongoose.set('strictQuery', false);
 
 const app = express();
 dotenv.config();
- 
+
+//middlewares
+app.use(cookieParser())
+app.use(express.json());
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/comments", commentRoutes);
+app.use(morgan("combined"));
+app.use(cors());
+
 const connect = () => {
   mongoose
     .connect(process.env.MONGO, {
@@ -27,15 +38,6 @@ const connect = () => {
     });
 };
 
-//middlewares
-app.use(cookieParser())
-app.use(express.json());
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/videos", videoRoutes);
-app.use("/api/comments", commentRoutes);
-app.use(morgan("combined"));
-app.use(cors());
 
 //error handler
 app.use((err, req, res, next) => {
@@ -60,3 +62,5 @@ app.listen(8800, () => {
   connect();
   console.log("Connected to Server");
 });
+
+

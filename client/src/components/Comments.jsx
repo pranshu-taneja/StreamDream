@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Container = styled.div``;
 
@@ -67,7 +66,7 @@ const Comments = ({videoId}) => {
   return (
     <Container>
       <NewComment>
-        {currentUser.img ? <Avatar src={currentUser.img} /> : <AccountCircleIcon/>}
+        <Avatar src={currentUser.img} /> 
         <Input placeholder="Add a comment..." onChange={(e)=>setcurrentComment(e.target.value)}/>
         <button onClick={handleComment}>Comment</button>
       </NewComment>

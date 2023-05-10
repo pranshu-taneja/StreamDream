@@ -14,16 +14,6 @@ mongoose.set('strictQuery', false);
 const app = express();
 dotenv.config();
 
-//middlewares
-app.use(express.json());
-app.use(cookieParser())
-app.use(morgan("combined"));
-app.use(cors());
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/videos", videoRoutes);
-app.use("/api/comments", commentRoutes);
-
 const port = process.env.PORT || 5000;
 const mongoURL = process.env.MONGO;
 
@@ -42,6 +32,17 @@ const connect = async() => {
 };
 
 
+//middlewares
+app.use(express.json());
+app.use(cookieParser())
+app.use(morgan("combined"));
+app.use(cors());
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/comments", commentRoutes);
+
+// If failed to connect to MongoDB, retry connection
 mongoose.connection.on('disconnected', function() {
   console.log('Lost MongoDB connection...');
 
@@ -62,7 +63,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
   try {
     res.json({ message: "Hello from the express server!!" });
   } catch (err) {

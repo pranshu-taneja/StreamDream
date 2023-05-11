@@ -23,16 +23,22 @@ const app = express();
 // adding frontend build
 app.use(express.static(path.join(__dirname, 'build')));
 
-
 // Configure middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(cors());
+
+//for api calls
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
+
+// Render index.html for all other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // Handle errors
 app.use((err, req, res, next) => {

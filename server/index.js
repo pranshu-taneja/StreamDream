@@ -30,6 +30,13 @@ app.use(morgan("combined"));
 app.use(cors());
 
 //for api calls
+app.get("/api", async (req, res) => {
+  try {
+    res.json({ message: "Hello from the express server!!" });
+  } catch (err) {
+    console.log(err);
+  }
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
@@ -49,15 +56,6 @@ app.use((err, req, res, next) => {
     status,
     message,
   });
-});
-
-// Define route for homepage
-app.get("/api", async (req, res) => {
-  try {
-    res.json({ message: "Hello from the express server!!" });
-  } catch (err) {
-    console.log(err);
-  }
 });
 
 

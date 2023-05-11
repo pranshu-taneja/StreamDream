@@ -6,17 +6,13 @@ import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Upload from "./Upload";
-import { logout } from "../redux/userSlice"
-import streamdream from "../img/logo.png";
-
+import {logout} from "../redux/userSlice"
 
 const Container = styled.div`
-  position: fixed;
+  position: sticky;
   top: 0;
-  width: 100vw;
   background-color: ${({ theme }) => theme.bgLighter};
   height: 56px;
-  z-index: 1;
 `;
 
 const Wrapper = styled.div`
@@ -80,25 +76,13 @@ const Avatar = styled.img`
   background-color: #999;
 `;
 
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: white;
-  font-weight: bold;
-`;
-
-const Img = styled.img`
-  height: 25px;
-`;
-
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const { currentUser } = useSelector((state) => state.user);
-  const handleLogout = async () => {
+  const handleLogout = async()=>{
     dispatch(logout());
     console.log("Sucessfully Logged Out!!")
     navigate("/");
@@ -108,16 +92,12 @@ const Navbar = () => {
     <>
       <Container>
         <Wrapper>
-          <Logo>
-            <Img src={streamdream} />
-            Stream-Dream
-          </Logo>
           <Search>
             <Input
               placeholder="Search"
               onChange={(e) => setQ(e.target.value)}
             />
-            <SearchOutlinedIcon onClick={() => navigate(`/search?q=${q}`)} />
+            <SearchOutlinedIcon onClick={()=>navigate(`/search?q=${q}`)}/>
           </Search>
           {currentUser ? (
             <User>
@@ -133,7 +113,7 @@ const Navbar = () => {
               </Button>
             </Link>
           )}
-          {currentUser ? (<Link onClick={() => { handleLogout() }} style={{ marginLeft: "1rem", fontWeight: "bold", textDecoration: "none" }}>Logout</Link>) : (null)}
+          {currentUser? (<Link onClick={()=>{handleLogout()}} style={{marginLeft:"1rem", fontWeight:"bold", textDecoration:"none"}}>Logout</Link>):(null)}
         </Wrapper>
       </Container>
       {open && <Upload setOpen={setOpen} />}

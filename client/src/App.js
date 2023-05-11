@@ -19,9 +19,7 @@ const Main = styled.div`
   background-color: ${({ theme }) => theme.bg};
 `;
 const Wrapper = styled.div`
-  margin: 8rem 0rem 1rem 15rem;
-  width: 80vw;
-  height: auto;
+  padding: 22px 96px;
 `;
 
 function App() {
@@ -31,10 +29,15 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
+<<<<<<< HEAD
         <HashRouter>
           <Navbar />
+=======
+        <BrowserRouter>
+          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+>>>>>>> parent of ef1de00 (Improved UI and Responsiveness)
           <Main>
-            <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+            <Navbar />
             <Wrapper>
               <Routes>
                 <Route path="/">

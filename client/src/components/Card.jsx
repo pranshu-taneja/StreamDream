@@ -5,16 +5,16 @@ import styled from "styled-components";
 import {format} from "timeago.js";
 
 const Container = styled.div`
-  width: ${(props) => props.type !== "sm" && "330px"};
+  width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
-  gap: 5px;
+  gap: 10px;
 `;
 
 const Image = styled.img`
   width: 100%;
-  height: ${(props) => (props.type === "sm" ? "120px" : "180px")};
+  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
   background-color: #999;
   flex: 1;
 `;

@@ -1,10 +1,19 @@
 {
   "files": {
+<<<<<<< HEAD
     "main.js": "/static/js/main.21ed34ea.js",
     "index.html": "/index.html",
     "main.21ed34ea.js.map": "/static/js/main.21ed34ea.js.map"
   },
   "entrypoints": [
     "static/js/main.21ed34ea.js"
+=======
+    "main.js": "/static/js/main.795a0b64.js",
+    "index.html": "/index.html",
+    "main.795a0b64.js.map": "/static/js/main.795a0b64.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.795a0b64.js"
+>>>>>>> parent of ef1de00 (Improved UI and Responsiveness)
   ]
 }

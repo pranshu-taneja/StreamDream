@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
 import { darkTheme, lightTheme } from "./utils/Theme";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
@@ -29,13 +29,8 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
-<<<<<<< HEAD
-        <HashRouter>
-          <Navbar />
-=======
         <BrowserRouter>
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
->>>>>>> parent of ef1de00 (Improved UI and Responsiveness)
           <Main>
             <Navbar />
             <Wrapper>
@@ -56,7 +51,7 @@ function App() {
               </Routes>
             </Wrapper>
           </Main>
-        </HashRouter>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import DreamStream from "../img/logo.png";
+import streamdream from "../img/logo.png";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
@@ -90,8 +90,8 @@ const Menu = ({ darkMode, setDarkMode }) => {
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Logo>
-            <Img src={DreamStream} />
-            DreamStream
+            <Img src={streamdream} />
+            Stream-Dream
           </Logo>
         </Link>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -139,7 +139,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
             <Hr />
           </>
         }
-        <Title>BEST OF DreamStream</Title>
+        <Title>BEST OF StreamDream</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music

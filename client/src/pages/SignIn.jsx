@@ -129,7 +129,7 @@ const SignIn = () => {
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
-        <SubTitle>to continue to DreamStream</SubTitle>
+        <SubTitle>to continue to StreamDream</SubTitle>
         <Input
           placeholder="email"
           onChange={(e) => setEmail(e.target.value)}

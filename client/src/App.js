@@ -19,7 +19,9 @@ const Main = styled.div`
   background-color: ${({ theme }) => theme.bg};
 `;
 const Wrapper = styled.div`
-  padding: 22px 96px;
+  margin: 8rem 0rem 1rem 15rem;
+  width: 80vw;
+  height: auto;
 `;
 
 function App() {
@@ -30,9 +32,9 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
         <BrowserRouter>
-          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Navbar />
           <Main>
-            <Navbar />
+            <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
             <Wrapper>
               <Routes>
                 <Route path="/">

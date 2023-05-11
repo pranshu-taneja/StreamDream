@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import streamdream from "../img/logo.png";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
@@ -20,27 +19,22 @@ import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightne
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Container = styled.div`
-  flex: 1;
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: rgb(32, 32, 32);
   height: 100vh;
-  color: ${({ theme }) => theme.text};
+  width: 13rem;
+  color: white;
   font-size: 14px;
-  position: sticky;
-  top: 0;
-`;
-const Wrapper = styled.div`
-  padding: 18px 26px;
-`;
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  margin-bottom: 25px;
+  position: fixed;
+  top: 3rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const Img = styled.img`
-  height: 25px;
+const Wrapper = styled.div`
+  padding: 18px 26px;
 `;
 
 const Item = styled.div`
@@ -89,10 +83,6 @@ const Menu = ({ darkMode, setDarkMode }) => {
     <Container>
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Logo>
-            <Img src={streamdream} />
-            Stream-Dream
-          </Logo>
         </Link>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>

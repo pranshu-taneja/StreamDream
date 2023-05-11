@@ -9,9 +9,12 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
 `;
 
-const Home = ({type}) => {
+
+
+const Home = ({type = "random"}) => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {

@@ -33,6 +33,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   position: relative;
+  z-index: 1;
 `;
 const Close = styled.div`
   position: absolute;

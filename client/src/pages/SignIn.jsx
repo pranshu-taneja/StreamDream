@@ -81,8 +81,7 @@ const SignIn = () => {
     try {
       const res = await axios.post("auth/signin", { email, password });
       dispatch(loginSuccess(res.data));
-      navigate("/")
-      alert("Successfully logged in!")
+      window.location.reload("/");
     } catch (err) {
       dispatch(loginFailure());
       alert("Wrong credentials, please try again")
@@ -95,12 +94,11 @@ const SignIn = () => {
       const res = await axios.post("auth/signup", { name, email, password });
       console.log(res.data);    //test logging statement
       alert("Successfully signed up! Please log in")
-      window.location.reload();
     } catch (err) {
       dispatch(loginFailure());
       alert("User Already Exists, please log in")
     }
-  } ;
+  };
 
   const signInWithGoogle = async () => {
     dispatch(loginStart());
@@ -115,10 +113,9 @@ const SignIn = () => {
           .then((res) => {
             console.log(res)
             dispatch(loginSuccess(res.data));
-            navigate("/")
-            alert("Successfully logged in!")
+            window.location.reload("/");
           });
-      })
+        })
       .catch((error) => {
         dispatch(loginFailure());
         alert("Some error occurred, please try again later")

@@ -10,10 +10,11 @@ import Comments from "../components/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { dislike, fetchSuccess, like } from "../redux/videoSlice";
+import { dislike, fetchFailure, fetchStart, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
 import { subscription } from "../redux/userSlice";
 import Recommendation from "../components/Recommendation";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
   display: flex;
@@ -115,18 +116,32 @@ const VideoFrame = styled.video`
   object-fit: cover;
 `;
 
+const ProgressBar = styled.div`
+  text-align: center;
+  position: relative;
+  top: 30vh;
+  left: 35vw;
+`;
+
+const H1 = styled.h3`
+  color: white;
+`;
+
+
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
+
   const dispatch = useDispatch();
 
-  const path = useLocation().pathname.split("/")[2];
 
   const [channel, setChannel] = useState({});
+  let path = "js";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        dispatch(fetchStart());
         const videoRes = await axios.get(`/videos/find/${path}`);
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
@@ -134,11 +149,14 @@ const Video = () => {
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (err) {
+        dispatch(fetchFailure())
         console.log(err)
       }
     };
     fetchData();
   }, [path, dispatch]);
+
+  path = useLocation().pathname.split("/")[2];
 
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`);
@@ -156,65 +174,83 @@ const Video = () => {
     dispatch(subscription(channel._id));
   };
 
+  const noUser = () => {
+    alert("Please login to access this feature");
+  };
+
   //TODO: DELETE VIDEO FUNCTIONALITY
 
   return (
     <Container>
-          {/* {fetchDataRandom()} */}
-      <Content>
-        <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl} controls />
-        </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
-        <Details>
-          <Info>
-            {currentVideo.views} views • {format(currentVideo.createdAt)}
-          </Info>
-          <Buttons>
-            <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser?._id) ? (
-                <ThumbUpIcon />
-              ) : (
-                <ThumbUpOutlinedIcon />
-              )}{" "}
-              {currentVideo.likes?.length}
-            </Button>
-            <Button onClick={handleDislike}>
-              {currentVideo.dislikes?.includes(currentUser?._id) ? (
-                <ThumbDownIcon />
-              ) : (
-                <ThumbDownOffAltOutlinedIcon />
-              )}{" "}
-              Dislike
-            </Button>
-            <Button>
-              <ReplyOutlinedIcon /> Share
-            </Button>
-            <Button>
-              <AddTaskOutlinedIcon /> Save
-            </Button>
-          </Buttons>
-        </Details>
-        <Hr />
-        <Channel>
-          <ChannelInfo>
-            <Image src={channel.img} />
-            <ChannelDetail>
-              <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
-            </ChannelDetail>
-          </ChannelInfo>
-          <Subscribe onClick={handleSub}>
-            {currentUser.subscribedUsers?.includes(channel._id)
-              ? "SUBSCRIBED"
-              : "SUBSCRIBE"}
-          </Subscribe>
-        </Channel>
-        <Hr />
-        <Comments videoId={currentVideo._id} />
-      </Content>
-      <Recommendation tags={currentVideo.tags} />
+      {currentVideo ? (
+        <div>
+          <Content>
+            <VideoWrapper>
+              <VideoFrame src={currentVideo.videoUrl} controls />
+            </VideoWrapper>
+            <Title>{currentVideo.title}</Title>
+            <Details>
+              <Info>
+                {currentVideo.views} views • {format(currentVideo.createdAt)}
+              </Info>
+              <Buttons>
+                <Button onClick={currentUser ? handleLike : noUser}>
+                  {currentVideo.likes?.includes(currentUser?._id) ? (
+                    <ThumbUpIcon />
+                  ) : (
+                    <ThumbUpOutlinedIcon />
+                  )}{" "}
+                  {currentVideo.likes?.length}
+                </Button>
+                <Button onClick={currentUser ? handleDislike : noUser}>
+                  {currentVideo.dislikes?.includes(currentUser?._id) ? (
+                    <ThumbDownIcon />
+                  ) : (
+                    <ThumbDownOffAltOutlinedIcon />
+                  )}{" "}
+                  Dislike
+                </Button>
+                <Button>
+                  <ReplyOutlinedIcon /> Share
+                </Button>
+                <Button>
+                  <AddTaskOutlinedIcon /> Save
+                </Button>
+              </Buttons>
+            </Details>
+            <Hr />
+            <Channel>
+              <ChannelInfo>
+                <Image src={channel.img} />
+                <ChannelDetail>
+                  <ChannelName>{channel.name}</ChannelName>
+                  <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
+                  <Description>{currentVideo.desc}</Description>
+                </ChannelDetail>
+              </ChannelInfo>
+              {
+                currentUser ?
+                  <Subscribe onClick={handleSub}>
+                    {currentUser.subscribedUsers?.includes(channel._id)
+                      ? "SUBSCRIBED"
+                      : "SUBSCRIBE"}
+                  </Subscribe>
+                  :
+                  <Subscribe onClick={noUser}>SUBSCRIBE</Subscribe>
+              }
+            </Channel>
+            <Hr />
+              <H1>Comments</H1>
+            <Hr />
+            <Comments videoId={currentVideo._id} />
+          </Content>
+          <Recommendation tags={currentVideo.tags} />
+        </div>
+      ) : (
+        <ProgressBar>
+          <CircularProgress size={60} />
+        </ProgressBar>
+      )}
     </Container>
   );
 };

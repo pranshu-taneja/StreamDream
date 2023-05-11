@@ -19,7 +19,7 @@ const Home = ({type = "random"}) => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/${type}`);
+      const res = await axios.get(`/api/videos/${type}`);
       setVideos(res.data);
     };
     fetchVideos();

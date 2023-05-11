@@ -8,14 +8,21 @@ import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
+import * as url from 'url';
+import path from 'path';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 // Set Mongoose option to avoid errors with empty ObjectIDs
 mongoose.set("strictQuery", false);
 
 // Load environment variables
 dotenv.config();
-
 const app = express();
+
+
+// adding frontend build
+app.use(express.static(path.join(__dirname, 'build')));
+
 
 // Configure middleware
 app.use(express.json());
@@ -46,6 +53,7 @@ app.get("/api", async (req, res) => {
     console.log(err);
   }
 });
+
 
 // Connect to MongoDB
 const connectToDB = async () => {

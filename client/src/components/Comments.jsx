@@ -51,7 +51,7 @@ const Comments = ({ videoId }) => {
   const handleComment = async () => {
     try {
       console.log({ Publishing_Content: videoId, currentUser, currentComment })
-      await axios.post("/comments", {
+      await axios.post("/api/comments", {
         videoId,
         userId: currentUser._id,
         desc: currentComment,
@@ -66,7 +66,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axios.get(`/api/comments/${videoId}`);
         setComments(res.data);
       } catch (err) { }
     };

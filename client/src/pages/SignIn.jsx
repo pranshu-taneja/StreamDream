@@ -79,9 +79,9 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("auth/signin", { email, password });
+      const res = await axios.post("api/auth/signin", { email, password });
+      navigate("/");
       dispatch(loginSuccess(res.data));
-      window.location.reload("/");
     } catch (err) {
       dispatch(loginFailure());
       alert("Wrong credentials, please try again")
@@ -91,7 +91,7 @@ const SignIn = () => {
   const SignUp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("auth/signup", { name, email, password });
+      const res = await axios.post("api/auth/signup", { name, email, password });
       console.log(res.data);    //test logging statement
       alert("Successfully signed up! Please log in")
     } catch (err) {
@@ -105,7 +105,7 @@ const SignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios
-          .post("auth/google", {
+          .post("api/auth/google", {
             name: result.user.displayName,
             email: result.user.email,
             img: result.user.photoURL,
